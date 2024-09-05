@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qmma_flutter/ui/utils/qm_color.dart';
 import 'package:qmma_flutter/ui/widgets/nav_item_tile.dart';
 
 class SidebarNav extends StatefulWidget {
@@ -16,30 +17,33 @@ class SidebarNav extends StatefulWidget {
 }
 
 class _SidebarNavState extends State<SidebarNav> {
+  final Color primary = QmColor.primary;
+  final Color secondary = QmColor.secondary;
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       child: SafeArea(
         child: Column(
           children: [
-
             // Profile option
-            const ListTile(
+            ListTile(
               // leading: Icon(Icons.person, color: Colors.purple),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(child: Icon(Icons.person, color: Colors.purple)),
+                  CircleAvatar(child: Icon(Icons.person, color: primary)),
                   Text(
                     "Mukarrom Hosain",
-                    style: TextStyle(color: Colors.purple),
+                    style: TextStyle(
+                      color: primary,
+                      fontSize: 16,
+                    ),
                   ),
                   Text(
                     "mukarrom@qmma.com",
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: primary,
                       fontSize: 12,
                       fontWeight: FontWeight.w300,
                     ),
@@ -48,10 +52,10 @@ class _SidebarNavState extends State<SidebarNav> {
               ),
               // subtitle: Text("mukarrom@qmma.com",
               //     style: TextStyle(color: Colors.purple)),
-              trailing: Icon(Icons.logout, color: Colors.purple),
+              trailing: Icon(Icons.logout, color: primary),
             ),
-            const Divider(
-              color: Colors.purple,
+            Divider(
+              color: primary,
               height: 1,
             ),
 
