@@ -39,7 +39,7 @@ class QmmaApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
