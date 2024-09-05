@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:qmma_flutter/ui/widgets/nav_item_tile.dart';
 
 class SidebarNav extends StatefulWidget {
   const SidebarNav({
     super.key,
     required this.onItemTapped,
-    required this.navItemName,
+    required this.path,
   });
 
   final Function(String) onItemTapped;
-  final String navItemName;
+  final String path;
 
   @override
   State<SidebarNav> createState() => _SidebarNavState();
@@ -17,18 +18,12 @@ class SidebarNav extends StatefulWidget {
 class _SidebarNavState extends State<SidebarNav> {
   @override
   Widget build(BuildContext context) {
-    Color? navColor(String navItemName, Color? color) {
-      if (navItemName == widget.navItemName) {
-        return color;
-      }
-      return null;
-    }
 
     return Drawer(
-      // width: 10,
       child: SafeArea(
         child: Column(
           children: [
+
             // Profile option
             const ListTile(
               // leading: Icon(Icons.person, color: Colors.purple),
@@ -61,21 +56,11 @@ class _SidebarNavState extends State<SidebarNav> {
             ),
 
             // Dashboard option
-            ListTile(
-              leading: Icon(
-                Icons.dashboard,
-                color: navColor("dashboard", Colors.white),
-              ),
-              title: Text(
-                "Dashboard",
-                style: TextStyle(
-                  color: navColor("dashboard", Colors.white),
-                ),
-              ),
-              // trailing: Icon(Icons.chevron_right, color: Colors.white),
-              tileColor: navColor("dashboard", Colors.purple),
-              // contentPadding: EdgeInsets.zero,
-              onTap: () => widget.onItemTapped("dashboard"),
+            NavItemTile(
+              widget: widget,
+              path: "dashboard",
+              itemName: "Dashboard",
+              icon: Icons.dashboard,
             ),
 
             const Divider(
@@ -87,41 +72,19 @@ class _SidebarNavState extends State<SidebarNav> {
             ExpansionTile(
               title: const Text("User"),
               leading: const Icon(Icons.person),
-              // backgroundColor: Colors.purple,
-              // backgroundColor: Color(0xFFD5AADCFF),
-              // collapsedBackgroundColor: Colors.purple,
-              // childrenPadding: const EdgeInsets.only(left: 20),
+              childrenPadding: const EdgeInsets.only(left: 20),
               children: [
                 Divider(
                   color: Colors.grey.shade300,
                   height: 1,
                 ),
-                // Session option
-                ListTile(
-                  contentPadding: const EdgeInsets.only(left: 40),
-                  tileColor: navColor("add_user", Colors.purple),
-                  leading: Icon(
-                    Icons.add_circle_outline,
-                    color: navColor(
-                      "add_user",
-                      Colors.white,
-                    ),
-                  ),
-                  title: Text(
-                    "Add User",
-                    style: TextStyle(
-                      color: navColor(
-                        "add_user",
-                        Colors.white,
-                      ),
-                    ),
-                  ),
-                  onTap: () => widget.onItemTapped("add_user"),
-                ),
 
-                Divider(
-                  color: Colors.grey.shade300,
-                  height: 1,
+                // Add User
+                NavItemTile(
+                  widget: widget,
+                  path: "add-user",
+                  itemName: "Add User",
+                  icon: Icons.person_add,
                 ),
               ],
             ),
@@ -135,19 +98,32 @@ class _SidebarNavState extends State<SidebarNav> {
             ExpansionTile(
               title: const Text("Students"),
               leading: const Icon(Icons.people_alt_rounded),
-              // backgroundColor: Colors.purple,
-              // backgroundColor: Color(0xFFD5AADCFF),
-              // collapsedBackgroundColor: Colors.purple,
               childrenPadding: const EdgeInsets.only(left: 20),
               children: [
                 Divider(
                   color: Colors.grey.shade300,
                   height: 1,
                 ),
+
+                // Students option
+                NavItemTile(
+                  widget: widget,
+                  path: "students",
+                  itemName: "Students",
+                  icon: Icons.people_alt_rounded,
+                ),
+
+                Divider(
+                  color: Colors.grey.shade300,
+                  height: 1,
+                ),
+
                 // Session option
-                const ListTile(
-                  leading: Icon(Icons.chevron_right),
-                  title: Text("Session"),
+                NavItemTile(
+                  widget: widget,
+                  path: "session",
+                  itemName: "Session",
+                  icon: Icons.lock_clock,
                 ),
 
                 Divider(
@@ -156,9 +132,11 @@ class _SidebarNavState extends State<SidebarNav> {
                 ),
 
                 // Class option
-                const ListTile(
-                  leading: Icon(Icons.chevron_right),
-                  title: Text("Class"),
+                NavItemTile(
+                  widget: widget,
+                  path: "class",
+                  itemName: "Class",
+                  icon: Icons.class_,
                 ),
 
                 Divider(
@@ -167,9 +145,36 @@ class _SidebarNavState extends State<SidebarNav> {
                 ),
 
                 // Class Group option
-                const ListTile(
-                  leading: Icon(Icons.chevron_right),
-                  title: Text("Class Group"),
+                NavItemTile(
+                  widget: widget,
+                  path: "class-group",
+                  itemName: "Class Group",
+                  icon: Icons.group_work_outlined,
+                ),
+              ],
+            ),
+            const Divider(
+              color: Colors.purple,
+              height: 1,
+            ),
+
+            // Examination Expansion Tile
+            ExpansionTile(
+              title: const Text("Examination"),
+              leading: const Icon(Icons.chevron_right),
+              childrenPadding: const EdgeInsets.only(left: 20),
+              children: [
+                Divider(
+                  color: Colors.grey.shade300,
+                  height: 1,
+                ),
+
+                // Exam Name option
+                NavItemTile(
+                  widget: widget,
+                  path: "exam-name",
+                  itemName: "Exam Name",
+                  icon: Icons.pageview_rounded,
                 ),
 
                 Divider(
@@ -177,13 +182,16 @@ class _SidebarNavState extends State<SidebarNav> {
                   height: 1,
                 ),
 
-                // Add user option
-                const ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text("Admission"),
+                // Exam Fee option
+                NavItemTile(
+                  widget: widget,
+                  path: "exam-fee",
+                  itemName: "Exam Fee",
+                  icon: Icons.money,
                 ),
               ],
             ),
+
             const Divider(
               color: Colors.purple,
               height: 1,
