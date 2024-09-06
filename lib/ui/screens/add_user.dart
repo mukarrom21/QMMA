@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qmma_flutter/ui/utils/screen_util.dart';
+import 'package:qmma_flutter/ui/widgets/input_field.dart';
+import 'package:qmma_flutter/ui/widgets/select_widget.dart';
 
 class AddUser extends StatefulWidget {
   const AddUser({super.key});
@@ -11,46 +13,34 @@ class AddUser extends StatefulWidget {
 
 class _AddUserState extends State<AddUser> {
   final TextEditingController _dateOfBirth = TextEditingController();
+  final TextEditingController _nameTEController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Wrap(
-      alignment: WrapAlignment.start,
-      runAlignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.start,
-      children: [
-        // Select User Role
-        Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              labelText: 'User Role',
-            ),
-            items: const [
-              DropdownMenuItem(
-                value: 'Admin',
-                child: Text('Admin'),
-              ),
-              DropdownMenuItem(
-                value: 'Teacher',
-                child: Text('Teacher'),
-              ),
-              DropdownMenuItem(
-                value: 'Student',
-                child: Text('Student'),
-              ),
-              DropdownMenuItem(
-                value: 'Parent',
-                child: Text('Parent'),
-              ),
-            ],
-            onChanged: (value) {
-              // Do something when the dropdown value is changed
-            },
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.center,
+        runAlignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          // Select User Role
+          SelectWidget(width: width),
+          InputField(
+            width: width,
+            labelText: 'Full Name',
+            hintText: "Enter full name",
+            controller: _nameTEController,
           ),
-        ),
-      ],
+          
+          // submit button
+          ElevatedButton(onPressed: (){}, child: Text("Submit"))
+        ],
+      ),
     );
   }
 }
