@@ -5,10 +5,11 @@ import 'package:qmma_flutter/ui/utils/screen_util.dart';
 class SelectWidget extends StatelessWidget {
   const SelectWidget({
     super.key,
-    required this.width,
+    required this.width, required this.onChangeRole,
   });
 
   final double width;
+  final Function onChangeRole;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class SelectWidget extends StatelessWidget {
           ),
         ],
         onChanged: (value) {
+          onChangeRole(value);
           // Do something when the dropdown value is changed
         },
       ),

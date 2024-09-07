@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:qmma_flutter/ui/utils/screen_util.dart';
 import 'package:qmma_flutter/ui/widgets/input_field.dart';
 import 'package:qmma_flutter/ui/widgets/select_widget.dart';
 
@@ -12,8 +11,21 @@ class AddUser extends StatefulWidget {
 }
 
 class _AddUserState extends State<AddUser> {
-  final TextEditingController _dateOfBirth = TextEditingController();
   final TextEditingController _nameTEController = TextEditingController();
+  final TextEditingController _fatherNameTEController = TextEditingController();
+  final TextEditingController _motherNameTEController = TextEditingController();
+  final TextEditingController _dobTEController = TextEditingController();
+  final TextEditingController _birthCertificateNoTEController = TextEditingController();
+  final TextEditingController _phoneTEController = TextEditingController();
+  final TextEditingController _emailTEController = TextEditingController();
+
+  void _onTapSubmit() {
+    print(_nameTEController.text);
+  }
+
+  void _onChangeRole(value){
+    print(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +41,59 @@ class _AddUserState extends State<AddUser> {
         runSpacing: 10,
         children: [
           // Select User Role
-          SelectWidget(width: width),
+          SelectWidget(width: width, onChangeRole: _onChangeRole,),
+
           InputField(
             width: width,
             labelText: 'Full Name',
             hintText: "Enter full name",
             controller: _nameTEController,
           ),
-          
+
+          InputField(
+            width: width,
+            labelText: "Father Name",
+            hintText: "Enter father name",
+            controller: _fatherNameTEController,
+          ),
+
+          InputField(
+            width: width,
+            labelText: "Mother Name",
+            hintText: "Enter mother name",
+            controller: _motherNameTEController,
+          ),
+
+          InputField(
+            width: width,
+            labelText: "Date of Birth",
+            hintText: "Enter date of birth",
+            controller: _dobTEController,
+          ),
+
+          InputField(
+            width: width,
+            labelText: "Birth Certificate No",
+            hintText: "Enter birth certificate no",
+            controller: _birthCertificateNoTEController,
+          ),
+
+          InputField(
+            width: width,
+            labelText: "Phone No",
+            hintText: "Enter phone no",
+            controller: _phoneTEController,
+          ),
+
+          InputField(
+            width: width,
+            labelText: "Email",
+            hintText: "Enter email address",
+            controller: _emailTEController,
+          ),
+
           // submit button
-          ElevatedButton(onPressed: (){}, child: Text("Submit"))
+          ElevatedButton(onPressed: _onTapSubmit, child: Text("Submit"))
         ],
       ),
     );
