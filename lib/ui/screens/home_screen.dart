@@ -8,6 +8,7 @@ import 'package:qmma_flutter/ui/screens/students/class_group_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/class_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/session_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/students_screen.dart';
+import 'package:qmma_flutter/ui/screens/users/users.dart';
 import 'package:qmma_flutter/ui/widgets/responsive_builder.dart';
 import 'package:qmma_flutter/ui/widgets/sidebar_nav.dart';
 
@@ -21,10 +22,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Map<String, Widget> _navItems = {
     'dashboard': const Dashboard(),
+    'users': const Users(),
     'add-user': const AddUser(),
     'session': const SessionScreen(),
     'class': const ClassScreen(),
-    'class-group': const ClassGroupScreen(),
+    'class_group': const ClassGroupScreen(),
     'students': const StudentsScreen(),
     'exam-name': const ExamNameScreen(),
     'exam-fee': const ExamFeeScreen(),

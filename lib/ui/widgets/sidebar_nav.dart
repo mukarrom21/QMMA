@@ -19,241 +19,96 @@ class SidebarNav extends StatefulWidget {
 class _SidebarNavState extends State<SidebarNav> {
   final Color primary = QmColor.primary;
   final Color secondary = QmColor.secondary;
+
+  List<Map> navItemList = [
+    {"path": "dashboard", "name": "Dashboard", "icon": Icons.dashboard},
+    {"path": "users", "name": "Users", "icon": Icons.person},
+    {"path": "students", "name": "Students", "icon": Icons.book},
+    {"name": "Talimat", "icon": Icons.book_outlined, "children": [
+      {"path": "session", "name": "শিক্ষাবর্ষ", "icon": Icons.book_outlined},
+      {"path": "class", "name": "ক্লাশ", "icon": Icons.class_outlined},
+      {"path": "class_group", "name": "গ্রুপ", "icon": Icons.group_outlined},
+      {"path": "book", "name": "কিতাব", "icon": Icons.book_outlined},
+    ]},
+  ];
+  Map<String, IconData> pathsMap = {
+    "dashboard": Icons.dashboard,
+    "users": Icons.person,
+    "students": Icons.book,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Profile option
-              ListTile(
-                // leading: Icon(Icons.person, color: Colors.purple),
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(child: Icon(Icons.person, color: primary)),
-                    Text(
-                      "Mukarrom Hosain",
-                      style: TextStyle(
-                        color: primary,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      "mukarrom@qmma.com",
-                      style: TextStyle(
-                        color: primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
-                ),
-                // subtitle: Text("mukarrom@qmma.com",
-                //     style: TextStyle(color: Colors.purple)),
-                trailing: Icon(Icons.logout, color: primary),
-              ),
-              Divider(
-                color: primary,
-                height: 1,
-              ),
-          
-              // Dashboard option
-              NavItemTile(
+        child: ListView(
+          children: [
+            /// Header
+            _buildDrawerHeader(),
+
+            for (var path in navItemList)
+             path["children"] == null ? NavItemTile(
                 widget: widget,
-                path: "dashboard",
-                itemName: "Dashboard",
-                icon: Icons.dashboard,
-              ),
-          
-              const Divider(
-                color: Colors.purple,
-                height: 1,
-              ),
-          
-              // User Expanded Tile
-              ExpansionTile(
-                title: const Text("User"),
-                leading: const Icon(Icons.person),
+                path: path["path"],
+                itemName: path["name"],
+                icon: path["icon"],
+              ) : ExpansionTile(
+                title: Text(path["name"]),
+                leading: Icon(path["icon"]),
+                initiallyExpanded: path["path"] == widget.path,
                 childrenPadding: const EdgeInsets.only(left: 20),
+                subtitle: const Text("Click to view more"),
                 children: [
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Add User
-                  NavItemTile(
-                    widget: widget,
-                    path: "add-user",
-                    itemName: "Add User",
-                    icon: Icons.person_add,
-                  ),
+                  for (var child in path["children"])
+                    NavItemTile(
+                      widget: widget,
+                      path: child["path"],
+                      itemName: child["name"],
+                      icon: child["icon"],
+                    ),
                 ],
-              ),
-          
-              const Divider(
-                color: Colors.purple,
-                height: 1,
-              ),
-          
-              // Student expansion tile
-              ExpansionTile(
-                title: const Text("Students"),
-                leading: const Icon(Icons.people_alt_rounded),
-                childrenPadding: const EdgeInsets.only(left: 20),
-                children: [
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Students option
-                  NavItemTile(
-                    widget: widget,
-                    path: "students",
-                    itemName: "Students",
-                    icon: Icons.people_alt_rounded,
-                  ),
-          
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Session option
-                  NavItemTile(
-                    widget: widget,
-                    path: "session",
-                    itemName: "Session",
-                    icon: Icons.lock_clock,
-                  ),
-          
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Class option
-                  NavItemTile(
-                    widget: widget,
-                    path: "class",
-                    itemName: "Class",
-                    icon: Icons.class_,
-                  ),
-          
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Class Group option
-                  NavItemTile(
-                    widget: widget,
-                    path: "class-group",
-                    itemName: "Class Group",
-                    icon: Icons.group_work_outlined,
-                  ),
-
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-
-                  // Section option
-                  NavItemTile(
-                    widget: widget,
-                    path: "book",
-                    itemName: "Book",
-                    icon: Icons.chevron_right,
-                    )
-                ],
-              ),
-              const Divider(
-                color: Colors.purple,
-                height: 1,
-              ),
-          
-              // Examination Expansion Tile
-              ExpansionTile(
-                title: const Text("Examination"),
-                leading: const Icon(Icons.chevron_right),
-                childrenPadding: const EdgeInsets.only(left: 20),
-                children: [
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Exam Name option
-                  NavItemTile(
-                    widget: widget,
-                    path: "exam-name",
-                    itemName: "Exam Name",
-                    icon: Icons.pageview_rounded,
-                  ),
-          
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Exam Fee option
-                  NavItemTile(
-                    widget: widget,
-                    path: "exam-fee",
-                    itemName: "Exam Fee",
-                    icon: Icons.money,
-                  ),
-                ],
-              ),
-          
-              const Divider(
-                color: Colors.purple,
-                height: 1,
-              ),
-          
-              // Accounting Expansion Tile
-              ExpansionTile(
-                title: const Text("Accounting"),
-                leading: const Icon(Icons.chevron_right),
-                // backgroundColor: Colors.purple,
-                // backgroundColor: Color(0xFFD5AADCFF),
-                // collapsedBackgroundColor: Colors.purple,
-                childrenPadding: const EdgeInsets.only(left: 20),
-                children: [
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-                  // Session option
-                  const ListTile(
-                    leading: Icon(Icons.chevron_right),
-                    title: Text("Fee Collection"),
-                  ),
-          
-                  Divider(
-                    color: Colors.grey.shade300,
-                    height: 1,
-                  ),
-          
-                  // Expense option
-                  const ListTile(
-                    leading: Icon(Icons.chevron_right),
-                    title: Text("Expense"),
-                  ),
-                ],
-              ),
-          
-              Divider(
-                color: Colors.purple,
-                height: 1,
-              ),
-            ],
-          ),
+              )
+          ],
         ),
+      ),
+    );
+  }
+
+  DrawerHeader _buildDrawerHeader() {
+    return DrawerHeader(
+      child: Column(
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: primary,
+                width: 1,
+              ),
+            ),
+            child: Image.network(
+              "https://images.pexels.com/photos/14589344/pexels-photo-14589344.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            "মোকাররম হোসাইন",
+            style: TextStyle(
+              color: primary,
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            "mukarrom@qmma.com",
+            style: TextStyle(
+              color: primary,
+              fontSize: 12,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ],
       ),
     );
   }

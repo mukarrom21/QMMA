@@ -11,142 +11,173 @@ class StudentsScreen extends StatefulWidget {
 
 class _StudentsScreenState extends State<StudentsScreen> {
   List<int> selectedRowIndices = [];
-
-  Offset? _menuPosition; // To store the position for the context menu
-  bool _isMenuVisible = false; // To control visibility of the menu
-
-  void _showContextMenu(Offset position) {
-    setState(() {
-      _menuPosition = position;
-      _isMenuVisible = true;
-    });
-  }
-
-  void _hideContextMenu() {
-    setState(() {
-      _isMenuVisible = false;
-    });
-  }
+  Offset _tapPosition = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          /// Header section
-          SizedBox(
-            width: double.infinity,
-            child: Card(
-              color: Colors.white,
-              elevation: 10,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Students",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    IconButton.filled(
-                      onPressed: () {},
-                      icon: const Icon(Icons.add),
-                      tooltip: "Add new student",
-                    ),
-                    const Spacer(),
-                    IconButton.filledTonal(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.settings,
-                      ),
-                      tooltip: "Settings",
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton.outlined(
+          hoverColor: Colors.white,
+          onPressed: () {},
+          icon: const Icon(
+            Icons.add_circle,
           ),
-
-          /// Data table section
-          Expanded(
-            child: DataTable2(
-              columnSpacing: 12,
-              isHorizontalScrollBarVisible: true,
-              horizontalMargin: 12,
-              minWidth: 1000,
-              isVerticalScrollBarVisible: true,
-              horizontalScrollController: ScrollController(
-                debugLabel: 'horizontalScrollController',
-              ),
-              // checkboxAlignment: Alignment.centerLeft,
-              headingRowColor: const WidgetStatePropertyAll(QmColor.primary),
-              headingTextStyle: const TextStyle(
-                color: Colors.white,
-              ),
-              headingCheckboxTheme: const CheckboxThemeData(
-                fillColor: WidgetStatePropertyAll(QmColor.primary),
-                checkColor: WidgetStatePropertyAll(Colors.white),
-                side: BorderSide(
-                  color: Colors.white,
-                  width: 1,
-                  style: BorderStyle.solid,
-                ),
-              ),
-              columns: [
-                DataColumn2(
-                    fixedWidth: 50,
-                    label: const Text("id"),
-                    onSort: (columnIndex, ascending) {
-                      // do something
-                    }),
-                const DataColumn2(
-                  fixedWidth: 150,
-                  label: Text("Name"),
-                ),
-                const DataColumn2(
-                  fixedWidth: 150,
-                  label: Text("Father name"),
-                ),
-                const DataColumn2(
-                  fixedWidth: 70,
-                  label: Text("Class"),
-                ),
-                const DataColumn2(
-                  fixedWidth: 200,
-                  label: Text("Mobile"),
-                ),
-              ],
-              rows: List<DataRow>.generate(
-                100,
-                (int index) => DataRow2(
-                  onSecondaryTapDown: (details) {
-                    _onSecondaryTapShowPopupMenu(
-                      context,
-                      details.globalPosition,
-                    );
-                  },
-                  // onLongPress: (details) {
-                  //   _onSecondaryTapShowPopupMenu(
-                  //     context,
-                  //     details.globalPosition,
-                  //   );
-                  // },
-                  cells: [
-                    DataCell(Text("std$index")),
-                    const DataCell(Text("Abdullah al Araf")),
-                    const DataCell(Text("Abu Abdullah")),
-                    DataCell(Text("Class $index")),
-                    const DataCell(Text("+880 190 903 7017")),
-                  ],
-                ),
-              ),
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.grey.shade200),
+            foregroundColor: const WidgetStatePropertyAll(QmColor.primary),
+          ),
+          tooltip: "Add new student",
+        ),
+        backgroundColor: Colors.grey.shade200,
+        elevation: 10,
+        title: const Text(
+          "Students",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.settings,
+              color: QmColor.primary,
             ),
+            tooltip: "Settings",
           )
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // _buildHeaderSection(),
+            _buildDataTableSection(context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeaderSection() {
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        color: Colors.white,
+        elevation: 10,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              const Text(
+                "Students",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              IconButton.filled(
+                onPressed: () {},
+                icon: const Icon(Icons.add),
+                tooltip: "Add new student",
+              ),
+              const Spacer(),
+              IconButton.filledTonal(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.settings,
+                ),
+                tooltip: "Settings",
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDataTableSection(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTapDown: (details) {
+          setState(() {
+            _tapPosition = details.globalPosition;
+          });
+        },
+        child: DataTable2(
+          columnSpacing: 12,
+          isHorizontalScrollBarVisible: true,
+          horizontalMargin: 12,
+          minWidth: 1000,
+          isVerticalScrollBarVisible: true,
+          horizontalScrollController: ScrollController(
+            debugLabel: 'horizontalScrollController',
+          ),
+          // checkboxAlignment: Alignment.centerLeft,
+          headingRowColor: const WidgetStatePropertyAll(QmColor.primary),
+          headingTextStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          headingCheckboxTheme: const CheckboxThemeData(
+            fillColor: WidgetStatePropertyAll(QmColor.primary),
+            checkColor: WidgetStatePropertyAll(Colors.white),
+            side: BorderSide(
+              color: Colors.white,
+              width: 1,
+              style: BorderStyle.solid,
+            ),
+          ),
+          columns: [
+            DataColumn2(
+                fixedWidth: 50,
+                label: const Text("id"),
+                onSort: (columnIndex, ascending) {
+                  // do something
+                }),
+            const DataColumn2(
+              fixedWidth: 150,
+              label: Text("Name"),
+            ),
+            const DataColumn2(
+              fixedWidth: 150,
+              label: Text("Father name"),
+            ),
+            const DataColumn2(
+              fixedWidth: 70,
+              label: Text("Class"),
+            ),
+            const DataColumn2(
+              fixedWidth: 200,
+              label: Text("Mobile"),
+            ),
+          ],
+          rows: List<DataRow>.generate(
+            100,
+            (int index) => DataRow2(
+              /// On Mouse Right Button Click show popup menu
+              onSecondaryTapDown: (details) {
+                _onSecondaryTapShowPopupMenu(
+                  context,
+                  details.globalPosition,
+                );
+              },
+
+              /// On Long Press show popup menu
+              onLongPress: () {
+                _onSecondaryTapShowPopupMenu(context, _tapPosition);
+              },
+
+              cells: [
+                DataCell(Text("std$index")),
+                const DataCell(Text("Abdullah al Araf")),
+                const DataCell(Text("Abu Abdullah")),
+                DataCell(Text("Class $index")),
+                const DataCell(Text("+880 190 903 7017")),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -232,26 +263,5 @@ class _StudentsScreenState extends State<StudentsScreen> {
       ],
       elevation: 8.0,
     );
-    //     .then(
-    //   (value) {
-    //     if (value != null) {
-    //       _handleMenuSelection(value);
-    //     }
-    //   },
-    // );
   }
-
-// void _handleMenuSelection(String value) {
-//   switch (value) {
-//     case 'view':
-//       print("View option selected");
-//       break;
-//     case 'sort':
-//       print("Sort option selected");
-//       break;
-//     case 'refresh':
-//       print("Refresh option selected");
-//       break;
-//   }
-// }
 }

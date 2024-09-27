@@ -9,6 +9,7 @@ class ClassGroupScreen extends StatefulWidget {
 }
 
 class _ClassGroupScreenState extends State<ClassGroupScreen> {
+  Offset _tapPosition = Offset.zero;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +28,14 @@ class _ClassGroupScreenState extends State<ClassGroupScreen> {
             child: GestureDetector(
               onSecondaryTapDown: (details) {
                 _onSecondaryTapShowPopupMenu(context, details.globalPosition);
+              },
+              onTapDown: (details){
+                setState(() {
+                  _tapPosition = details.globalPosition;
+                });
+              },
+              onLongPress: () {
+                _onSecondaryTapShowPopupMenu(context, _tapPosition);
               },
               child: DataTable2(
                 columnSpacing: 12,
