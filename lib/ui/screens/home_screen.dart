@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:qmma_flutter/ui/screens/add_user.dart';
-import 'package:qmma_flutter/ui/screens/class_screen.dart';
 import 'package:qmma_flutter/ui/screens/dashboard.dart';
 import 'package:qmma_flutter/ui/screens/examination/exam_fee_screen.dart';
 import 'package:qmma_flutter/ui/screens/examination/exam_name_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/book_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/class_group_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/class_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/session_screen.dart';
 import 'package:qmma_flutter/ui/screens/students/students_screen.dart';
 import 'package:qmma_flutter/ui/widgets/responsive_builder.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'students': const StudentsScreen(),
     'exam-name': const ExamNameScreen(),
     'exam-fee': const ExamFeeScreen(),
+    'book': const BookScreen(),
   };
 
   String _navItemPathName = 'dashboard';
@@ -52,10 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         // backgroundColor: Colors.purple,
         title: const Text("QMMA"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings),
+          ),
+          IconButton(
+            tooltip: 'Logout',
+            icon: const Icon(Icons.logout),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar Navigation
           SizedBox(
             width: 250,
             child: SidebarNav(
@@ -68,10 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: _navItems[_navItemPathName]!,
           ),
+
+          // Footer
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
   }
+
   Widget _buildMobileLayout() {
     return Scaffold(
       appBar: AppBar(
@@ -85,6 +104,4 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _navItems[_navItemPathName],
     );
   }
-
-
 }

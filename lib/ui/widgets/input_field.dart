@@ -16,6 +16,7 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width > ScreenUtil.mobileMaxWidth ? 300 : double.infinity,
+      // height: 30,
       child: TextFormField(
         decoration:  InputDecoration(
             border: const OutlineInputBorder(),

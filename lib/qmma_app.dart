@@ -17,23 +17,6 @@ class QmmaApp extends StatelessWidget {
             foregroundColor: Colors.white,
           ),
 
-          // Input Decoration Theme
-          inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(),
-            // focusedBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(color: Colors.purple),
-            // ),
-            // labelStyle: TextStyle(color: Colors.purple),
-            floatingLabelStyle: TextStyle(
-              color: QmColor.primary,
-            ),
-            // fillColor: Colors.purple,
-            // filled: true,
-            errorStyle: TextStyle(
-              color: Colors.red,
-            ),
-          ),
-
           // Elevated Button Theme
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -44,6 +27,61 @@ class QmmaApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
       home: const HomeScreen(),
+      // home: TestScreen(),
+    );
+  }
+}
+
+
+
+class TestScreen extends StatelessWidget {
+  const TestScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// !  Sidebar
+              Container(
+                width: 200,
+                // height: double.infinity,
+                color: Colors.yellow.shade200,
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text("Home"),
+                    ),
+                    ListTile(
+                      title: Text("Home"),
+                    ),
+                    ListTile(
+                      title: Text("Home"),
+                    ),
+                    ListTile(
+                      title: Text("Home"),
+                    ),
+                  ],
+                ),
+              ),
+              /// ! Body
+              const Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Home page")
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

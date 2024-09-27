@@ -156,6 +156,19 @@ class _SidebarNavState extends State<SidebarNav> {
                     itemName: "Class Group",
                     icon: Icons.group_work_outlined,
                   ),
+
+                  Divider(
+                    color: Colors.grey.shade300,
+                    height: 1,
+                  ),
+
+                  // Section option
+                  NavItemTile(
+                    widget: widget,
+                    path: "book",
+                    itemName: "Book",
+                    icon: Icons.chevron_right,
+                    )
                 ],
               ),
               const Divider(
