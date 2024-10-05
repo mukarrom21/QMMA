@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qmma_flutter/ui/screens/home_screen.dart';
+import 'package:qmma_flutter/main_layout.dart';
 import 'package:qmma_flutter/ui/utils/qm_color.dart';
 
 class QmmaApp extends StatelessWidget {
@@ -11,13 +11,13 @@ class QmmaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'QMMA',
       theme: ThemeData(
-          // primarySwatch: QmColor.primary,
+          colorSchemeSeed: QmColor.primary,
           appBarTheme: const AppBarTheme(
             backgroundColor: QmColor.primary,
             foregroundColor: Colors.white,
           ),
 
-          // Elevated Button Theme
+          /// Elevated Button Theme
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: QmColor.primary,
@@ -31,8 +31,6 @@ class QmmaApp extends StatelessWidget {
     );
   }
 }
-
-
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -51,7 +49,7 @@ class TestScreen extends StatelessWidget {
                 width: 200,
                 // height: double.infinity,
                 color: Colors.yellow.shade200,
-                child: Column(
+                child: const Column(
                   children: [
                     ListTile(
                       title: Text("Home"),
@@ -68,14 +66,13 @@ class TestScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
               /// ! Body
               const Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Home page")
-                  ],
+                  children: [Text("Home page")],
                 ),
               ),
             ],

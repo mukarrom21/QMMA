@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:qmma_flutter/data/model/nav_item_model.dart';
+import 'package:qmma_flutter/ui/screens/users/add_user.dart';
+import 'package:qmma_flutter/ui/screens/dashboard/dashboard.dart';
+import 'package:qmma_flutter/ui/screens/examination/exam_fee_screen.dart';
+import 'package:qmma_flutter/ui/screens/examination/exam_name_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/book_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/class_group_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/class_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/session_screen.dart';
+import 'package:qmma_flutter/ui/screens/students/students_screen.dart';
+import 'package:qmma_flutter/ui/screens/users/users.dart';
+
+final List<NavItemModel> navItemDataList = [
+  NavItemModel(
+    name: "ড্যাশবোর্ড",
+    path: "dashboard",
+    icon: Icons.dashboard,
+    screen: const Dashboard(),
+  ),
+  NavItemModel(
+    name: "ইউজার",
+    icon: Icons.person,
+    path: "users",
+    screen: const Users(),
+  ),
+  NavItemModel(
+    name: "শিক্ষার্থী",
+    icon: Icons.reduce_capacity_outlined,
+    path: "students",
+    screen: const StudentsScreen(),
+  ),
+  NavItemModel(
+    name: "তা’লিমাত",
+    icon: Icons.book_outlined,
+    path: null,
+    children: _talimatNavItems,
+  ),
+  NavItemModel(
+    name: "পরীক্ষা",
+    icon: Icons.book_outlined,
+    path: null,
+    children: _examNavItems,
+  ),
+];
+
+final List<NavItemModel> _talimatNavItems = [
+  NavItemModel(
+    name: "শিক্ষাবর্ষ",
+    icon: Icons.book_outlined,
+    path: "session",
+    screen: const SessionScreen(),
+  ),
+  NavItemModel(
+    name: "ক্লাশ",
+    icon: Icons.class_outlined,
+    path: "class",
+    screen: const ClassScreen(),
+  ),
+  NavItemModel(
+    name: "গ্রুপ",
+    icon: Icons.group_outlined,
+    path: "class_group",
+    screen: const ClassGroupScreen(),
+  ),
+  NavItemModel(
+    name: "কিতাব",
+    icon: Icons.book_outlined,
+    path: "book",
+    screen: const BookScreen(),
+  ),
+];
+
+final List<NavItemModel> _examNavItems = [
+  NavItemModel(
+    name: "পরীক্ষা নাম",
+    icon: Icons.book_outlined,
+    path: "exam_name",
+    screen: const ExamNameScreen(),
+  ),
+  NavItemModel(
+    name: "পরীক্ষা ফি",
+    icon: Icons.book_outlined,
+    path: "exam_fee",
+    screen: const ExamFeeScreen(),
+  ),
+];

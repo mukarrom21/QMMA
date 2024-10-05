@@ -3,79 +3,114 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:qmma_flutter/ui/widgets/change_alert_dialog.dart';
 import 'package:qmma_flutter/ui/widgets/delete_alert_dialog.dart';
-import 'package:qmma_flutter/ui/widgets/header_app_bar.dart';
 import 'package:qmma_flutter/ui/widgets/qmma_input_field.dart';
+import 'package:qmma_flutter/ui/widgets/select_widget.dart';
 import '../../utils/qm_color.dart';
 
-/// পরীক্ষার নাম: বাংলা, আরবী, ইংরেজি
-/// TODO: Exam name Arabic,
-/// TODO: Exam name English
-/// TODO: Add new Exam name or Edit
-/// TODO: Change Status
-/// TODO: Delete Exam name
-
-class ExamNameScreen extends StatefulWidget {
-  const ExamNameScreen({super.key});
+class BookScreen extends StatefulWidget {
+  const BookScreen({super.key});
 
   @override
-  State<ExamNameScreen> createState() => _ExamNameScreenState();
+  State<BookScreen> createState() => _BookScreenState();
 }
 
-class _ExamNameScreenState extends State<ExamNameScreen> {
+class _BookScreenState extends State<BookScreen> {
   Offset _tapPosition = Offset.zero;
   List<int> selectedRows = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HeaderAppBar(
-        title: 'পরীক্ষার নাম',
-        buildAddOrEditDialog: _buildAddOrEditDialog,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: _buildExamNames(),
+      appBar: _buildHeaderAppBar(),
+      body: GestureDetector(
+        onTapDown: (details) {
+          setState(() {
+            _tapPosition = details.globalPosition;
+          });
+        },
+        child: DataTable2(
+          minWidth: 1200,
+          columnSpacing: 0,
+          headingRowColor: const WidgetStatePropertyAll(
+            QmColor.primary,
+          ),
+          headingTextStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          border: TableBorder(
+            horizontalInside: _buildBorderSide(),
+            verticalInside: _buildBorderSide(),
+            left: _buildBorderSide(),
+            right: _buildBorderSide(),
+            bottom: _buildBorderSide(),
+          ),
+          columns: _buildDataColumns(),
+          rows: _buildDataRows(),
+        ),
       ),
     );
   }
 
-  ListView _buildExamNames() {
-    return ListView.separated(
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onSecondaryTapDown: (details) {
-            setState(() {
-              _tapPosition = details.globalPosition;
-            });
-            _onSecondaryTapShowPopupMenu(context, index);
-          },
-          onTapDown: (details) {
-            setState(() {
-              _tapPosition = details.globalPosition;
-            });
-          },
-          onLongPress: () {
-            _onSecondaryTapShowPopupMenu(context, index);
-          },
-          child: CheckboxListTile(
-            tileColor: QmColor.secondary.withOpacity(0.3),
-            // onTap: (){},
-            title: Text(
-              'Exam Name $index',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            value: true,
-            onChanged: (bool? value) {},
-            // checkboxSemanticLabel: 'Exam Name $index',
-            /// take checkbox in first position
-            controlAffinity: ListTileControlAffinity.leading,
+  BorderSide _buildBorderSide() {
+    return const BorderSide(
+      color: QmColor.primary,
+      width: 1,
+    );
+  }
+
+  /// Build Header AppBar
+ AppBar _buildHeaderAppBar() {
+    return AppBar(
+      leading: IconButton.outlined(
+        hoverColor: Colors.white,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => _buildAddOrEditDialog(context));
+        },
+        icon: const Icon(
+          Icons.add_circle,
+        ),
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.grey.shade200),
+          foregroundColor: const WidgetStatePropertyAll(QmColor.primary),
+        ),
+        tooltip: "নতুন কিতাব যুক্ত করুন",
+      ),
+      iconTheme: const IconThemeData(color: QmColor.primary),
+      backgroundColor: Colors.grey.shade200,
+      elevation: 10,
+      title: const Text(
+        "কিতাব",
+        style: TextStyle(color: Colors.black),
+      ),
+      centerTitle: true,
+      actions: [
+        SizedBox(
+          width: 200,
+          height: 40,
+          child: SearchBar(
+            trailing: [
+              IconButton(
+                  onPressed: () {},
+                  color: QmColor.primary,
+                  icon: const Icon(Icons.search)),
+            ],
+            hintText: "কিতাবের নাম অনুসন্ধান করুন",
+            padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 5)),
           ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => const Gap(10),
-      itemCount: 4,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.settings,
+            color: QmColor.primary,
+          ),
+          tooltip: "Settings",
+        )
+      ],
     );
   }
 
@@ -291,82 +326,14 @@ Widget _buildAddOrEditDialog(BuildContext context, [int? index]) {
     text: index == null ? null : "${index + 1}",
   );
   TextEditingController bookNameBnTEC = TextEditingController(
-    text: index == null ? null : "Examination ${index + 1}",
+    text: index == null ? null : "Book ${index + 1}",
   );
   TextEditingController bookNameArTEC = TextEditingController(
-    text: index == null ? null : "Examination ${index + 1}",
+    text: index == null ? null : "Book ${index + 1}",
   );
   TextEditingController bookNameEnTEC = TextEditingController(
-    text: index == null ? null : "Examination ${index + 1}",
+    text: index == null ? null : "Book ${index + 1}",
   );
-
-  // return SimpleDialog(
-  //   title: Text(
-  //     index == null ? "Add New Exam" : "Edit Exam",
-  //     style: const TextStyle(
-  //       fontSize: 16,
-  //       fontWeight: FontWeight.bold,
-  //     ),
-  //   ),
-  //   children: [
-  //     Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         children: [
-  //           /// Exam Name (Bengali)
-  //           QmmaInputField(
-  //             labelText: "Exam Name (Bengali)",
-  //             inputTEC: bookNameBnTEC,
-  //           ),
-  //           const Gap(10),
-  //
-  //           /// Exam Name (Arabic)
-  //           QmmaInputField(
-  //             labelText: "Exam Name (Arabic)",
-  //             inputTEC: bookNameArTEC,
-  //           ),
-  //           const Gap(10),
-  //
-  //           /// Exam Name (English)
-  //           QmmaInputField(
-  //             labelText: "Exam Name (English)",
-  //             inputTEC: bookNameEnTEC,
-  //           ),
-  //           // const Gap(20),
-  //           // ElevatedButton(
-  //           //   onPressed: () {
-  //           //     Navigator.pop(context);
-  //           //   },
-  //           //   style: ElevatedButton.styleFrom(
-  //           //     fixedSize: const Size.fromWidth(200),
-  //           //   ),
-  //           //   child: const Text("Save"),
-  //           // ),
-  //         ],
-  //       ),
-  //     ),
-  //     Padding(
-  //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.end,
-  //         children: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Cancel'),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Save'),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   ],
-  // );
 
   return Dialog(
     child: Container(
@@ -375,123 +342,73 @@ Widget _buildAddOrEditDialog(BuildContext context, [int? index]) {
         maxWidth: 300,
         // maxHeight: 600,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          /// Title
-          Text(
-            index == null ? "Add new exam name" : "Edit exam name",
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        /// Title
+        Text(
+          index == null ? "নতুন কিতাব যোগ করুন" : "কিতাবের নাম সংশোধন করুন",
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-          const Divider(),
-          const Gap(20),
+        ),
+        const Divider(),
+        const Gap(20),
 
-          /// Book Name (Bengali)
-          QmmaInputField(
-            labelText: "Exam Name (Bengali)",
-            inputTEC: bookNameBnTEC,
-          ),
-          const Gap(10),
+        /// Select Class
+        SelectWidget(
+          labelText: "Select Class",
+          dropdownItems: const [
+            "Class 1",
+            "Class 2",
+            "Class 3",
+            "Class 4",
+            "Class 5",
+            "Class 6",
+            "Class 7",
+            "Class 8",
+            "Class 9",
+            "Class 10",
+          ],
+          selectedValue: index != null ? "Class ${index + 1}" : null,
+        ),
 
-          /// Book Name (Arabic)
-          QmmaInputField(
-            labelText: "Exam Name (Arabic)",
-            inputTEC: bookNameArTEC,
-          ),
-          const Gap(10),
+        /// Book ID
+        QmmaInputField(
+          labelText: "Book ID",
+          inputTEC: idTEC,
+        ),
+        const Gap(10),
 
-          /// Book Name (English)
-          QmmaInputField(
-            labelText: "Exam Name (English)",
-            inputTEC: bookNameEnTEC,
+        /// Book Name (Bengali)
+        QmmaInputField(
+          labelText: "কিতাবের নাম",
+          inputTEC: bookNameBnTEC,
+        ),
+        const Gap(10),
+
+        /// Book Name (Arabic)
+        QmmaInputField(
+          labelText: "اسم الكتاب",
+          inputTEC: bookNameArTEC,
+        ),
+        const Gap(10),
+
+        /// Book Name (English)
+        QmmaInputField(
+          labelText: "Book Name",
+          inputTEC: bookNameEnTEC,
+        ),
+        const Gap(20),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: const Size.fromWidth(double.maxFinite),
           ),
-          const Gap(20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                // style: ElevatedButton.styleFrom(
-                //   fixedSize: const Size.fromWidth(double.maxFinite),
-                // ),
-                child: const Text("Save"),
-              ),
-              const Gap(10),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-            ],
-          ),
-        ],
-      ),
+          child: const Text("Save"),
+        ),
+      ]),
     ),
   );
 }
-
-// Dialog(
-// child: Container(
-// padding: const EdgeInsets.all(20),
-// constraints: const BoxConstraints(
-// maxWidth: 300,
-// // maxHeight: 600,
-// ),
-// child: Column(mainAxisSize: MainAxisSize.min, children: [
-// /// Title
-// Text(
-// index == null ? "Add new exam name" : "Edit exam name",
-// style: const TextStyle(
-// fontSize: 16,
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// const Divider(),
-// const Gap(20),
-//
-// /// Exam ID
-// // QmmaInputField(
-// //   labelText: "Book ID",
-// //   inputTEC: idTEC,
-// // ),
-// // const Gap(10),
-//
-// /// Book Name (Bengali)
-// QmmaInputField(
-// labelText: "Exam Name (Bengali)",
-// inputTEC: bookNameBnTEC,
-// ),
-// const Gap(10),
-//
-// /// Book Name (Arabic)
-// QmmaInputField(
-// labelText: "Exam Name (Arabic)",
-// inputTEC: bookNameArTEC,
-// ),
-// const Gap(10),
-//
-// /// Book Name (English)
-// QmmaInputField(
-// labelText: "Exam Name (English)",
-// inputTEC: bookNameEnTEC,
-// ),
-// const Gap(20),
-// ElevatedButton(
-// onPressed: () {
-// Navigator.pop(context);
-// },
-// style: ElevatedButton.styleFrom(
-// fixedSize: const Size.fromWidth(double.maxFinite),
-// ),
-// child: const Text("Save"),
-// ),
-// ]),
-// ),
-//
-// )

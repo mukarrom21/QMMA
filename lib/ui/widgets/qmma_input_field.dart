@@ -9,7 +9,8 @@ class QmmaInputField extends StatelessWidget {
     this.border = false,
     this.inputTEC,
     this.widgetWidth = 200,
-    this.widgetHeight = 30,
+    this.widgetHeight,
+    this.keyboardType = TextInputType.text,
   });
 
   final String? labelText;
@@ -18,15 +19,18 @@ class QmmaInputField extends StatelessWidget {
   final TextEditingController? inputTEC;
   final double? widgetWidth;
   final double? widgetHeight;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return SizedBox(
         width:
-        width > ScreenUtil.mobileMaxWidth ? widgetWidth : double.infinity,
+            width > ScreenUtil.mobileMaxWidth ? widgetWidth : double.infinity,
+        height: widgetHeight,
         child: TextFormField(
           controller: inputTEC,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
             labelText: labelText,

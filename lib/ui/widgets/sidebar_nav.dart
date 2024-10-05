@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qmma_flutter/data/data/nav_item_data.dart';
 import 'package:qmma_flutter/ui/utils/qm_color.dart';
 import 'package:qmma_flutter/ui/widgets/nav_item_tile.dart';
 
@@ -9,7 +10,9 @@ class SidebarNav extends StatefulWidget {
     required this.path,
   });
 
-  final Function(String) onItemTapped;
+  /// this function is called on NavItemTile widget
+  /// this is defined on HomeScreen
+  final Function(String selectedNavItemPath) onItemTapped;
   final String path;
 
   @override
@@ -19,55 +22,42 @@ class SidebarNav extends StatefulWidget {
 class _SidebarNavState extends State<SidebarNav> {
   final Color primary = QmColor.primary;
   final Color secondary = QmColor.secondary;
-
-  List<Map> navItemList = [
-    {"path": "dashboard", "name": "Dashboard", "icon": Icons.dashboard},
-    {"path": "users", "name": "Users", "icon": Icons.person},
-    {"path": "students", "name": "Students", "icon": Icons.book},
-    {"name": "Talimat", "icon": Icons.book_outlined, "children": [
-      {"path": "session", "name": "শিক্ষাবর্ষ", "icon": Icons.book_outlined},
-      {"path": "class", "name": "ক্লাশ", "icon": Icons.class_outlined},
-      {"path": "class_group", "name": "গ্রুপ", "icon": Icons.group_outlined},
-      {"path": "book", "name": "কিতাব", "icon": Icons.book_outlined},
-    ]},
-  ];
-  Map<String, IconData> pathsMap = {
-    "dashboard": Icons.dashboard,
-    "users": Icons.person,
-    "students": Icons.book,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
         child: ListView(
           children: [
+
             /// Header
             _buildDrawerHeader(),
 
-            for (var path in navItemList)
-             path["children"] == null ? NavItemTile(
+            /// Nav Items
+            for (var item in navItemDataList)
+              item.path != null
+                  ? NavItemTile(
                 widget: widget,
-                path: path["path"],
-                itemName: path["name"],
-                icon: path["icon"],
-              ) : ExpansionTile(
-                title: Text(path["name"]),
-                leading: Icon(path["icon"]),
-                initiallyExpanded: path["path"] == widget.path,
+                path: item.path!,
+                itemName: item.name,
+                icon: item.icon,
+              )
+                  : ExpansionTile(
+                title: Text(item.name),
+                leading: Icon(item.icon),
+                backgroundColor: primary.withOpacity(0.05),
+                // initiallyExpanded: isExpanded,
                 childrenPadding: const EdgeInsets.only(left: 20),
                 subtitle: const Text("Click to view more"),
                 children: [
-                  for (var child in path["children"])
+                  for (var child in item.children)
                     NavItemTile(
                       widget: widget,
-                      path: child["path"],
-                      itemName: child["name"],
-                      icon: child["icon"],
+                      path: child.path!,
+                      itemName: child.name,
+                      icon: child.icon,
                     ),
                 ],
-              )
+              ),
           ],
         ),
       ),

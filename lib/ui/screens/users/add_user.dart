@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qmma_flutter/ui/utils/qm_color.dart';
 import 'package:qmma_flutter/ui/utils/screen_util.dart';
 import 'package:qmma_flutter/ui/widgets/date_picker.dart';
 import 'package:qmma_flutter/ui/widgets/input_field.dart';
@@ -25,7 +26,7 @@ class _AddUserState extends State<AddUser> {
   final TextEditingController _emailTEController = TextEditingController();
 
   void _onTapSubmit() {
-    print(_nameTEController.text);
+    // print(_nameTEController.text);
   }
 
   String role = "Student";
@@ -37,102 +38,73 @@ class _AddUserState extends State<AddUser> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Form(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // user info
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18.0),
-                      child: Text("User Information",
-                          style: Theme.of(context).textTheme.titleLarge),
-                    ),
-                    _buildUserInfoFormFields(width),
-
-                    // address
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18.0),
-                      child: Text("Present Address",
-                          style: Theme.of(context).textTheme.titleLarge),
-                    ),
-                    _buildAddressFormFields(width),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18.0),
-                      child: Text("Permanent Address",
-                          style: Theme.of(context).textTheme.titleLarge),
-                    ),
-                    _buildAddressFormFields(width),
-
-                    const SizedBox(height: 20),
-                    // submit button
-                    SizedBox(
-                      width: width > ScreenUtil.mobileMaxWidth
-                          ? double.infinity
-                          : double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 24),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: QmColor.primary,
+        elevation: 10,
+        title: const Text(
+          "Add User",
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Expanded(
+          flex: 2,
+          child: Form(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // user info
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 18.0),
+                    child: Text("User Information",
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  _buildUserInfoFormFields(width),
+      
+                  // address
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 18.0),
+                    child: Text("Present Address",
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  _buildAddressFormFields(width),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 18.0),
+                    child: Text("Permanent Address",
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  _buildAddressFormFields(width),
+      
+                  const SizedBox(height: 20),
+                  // submit button
+                  SizedBox(
+                    width: width > ScreenUtil.mobileMaxWidth
+                        ? double.infinity
+                        : double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        onPressed: _onTapSubmit,
-                        child: const Text("Submit"),
                       ),
+                      onPressed: _onTapSubmit,
+                      child: const Text("Submit"),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                ],
               ),
             ),
           ),
-          const Divider(
-           thickness: 20,
-           height: 20,
-           color: Colors.amber,
-         ),
-          Expanded(
-            child: ListView.separated(
-                // last to first
-                // reverse: true,
-                // last item will be on top and show scroll will start from top
-                physics: const BouncingScrollPhysics(),
-
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: OverflowBar(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
-                    title: Text("Name"),
-                    subtitle: Text("id: ${index + 1}"),
-                  );
-                },
-                separatorBuilder: (context, index) => const Divider(
-                      thickness: 1,
-                      height: 1,
-                    ),
-                itemCount: 200),
-          ),
-        ],
+        ),
       ),
     );
   }

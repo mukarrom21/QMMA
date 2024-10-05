@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qmma_flutter/ui/screens/add_user.dart';
-import 'package:qmma_flutter/ui/screens/dashboard.dart';
-import 'package:qmma_flutter/ui/screens/examination/exam_fee_screen.dart';
-import 'package:qmma_flutter/ui/screens/examination/exam_name_screen.dart';
-import 'package:qmma_flutter/ui/screens/students/book_screen.dart';
-import 'package:qmma_flutter/ui/screens/students/class_group_screen.dart';
-import 'package:qmma_flutter/ui/screens/students/class_screen.dart';
-import 'package:qmma_flutter/ui/screens/students/session_screen.dart';
-import 'package:qmma_flutter/ui/screens/students/students_screen.dart';
-import 'package:qmma_flutter/ui/screens/users/users.dart';
+import 'package:qmma_flutter/data/data/nav_item_data.dart';
 import 'package:qmma_flutter/ui/widgets/responsive_builder.dart';
 import 'package:qmma_flutter/ui/widgets/sidebar_nav.dart';
 
@@ -20,24 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Map<String, Widget> _navItems = {
-    'dashboard': const Dashboard(),
-    'users': const Users(),
-    'add-user': const AddUser(),
-    'session': const SessionScreen(),
-    'class': const ClassScreen(),
-    'class_group': const ClassGroupScreen(),
-    'students': const StudentsScreen(),
-    'exam-name': const ExamNameScreen(),
-    'exam-fee': const ExamFeeScreen(),
-    'book': const BookScreen(),
-  };
+  String _selectedNavItemPath = 'dashboard';
 
-  String _navItemPathName = 'dashboard';
-
-  void _onItemTapped(String value) {
+  void _onItemTapped(String selectedItemPath) {
     setState(() {
-      _navItemPathName = value;
+      _selectedNavItemPath = selectedItemPath;
       // print(_navItemName);
     });
   }
@@ -57,6 +35,21 @@ class _HomeScreenState extends State<HomeScreen> {
         // backgroundColor: Colors.purple,
         title: const Text("QMMA"),
         actions: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: SearchBar(
+              trailing: [Icon(Icons.search)],
+              constraints: BoxConstraints(
+                maxWidth: 400,
+                minWidth: 200,
+              ),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(10)),
+              hintText: "Search here...",
+              hintStyle: WidgetStatePropertyAll(
+                TextStyle(color: Colors.blue),
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.settings),
@@ -75,13 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 250,
             child: SidebarNav(
               onItemTapped: _onItemTapped,
-              path: _navItemPathName,
+              path: _selectedNavItemPath,
             ),
           ),
 
           // Outlet for Desktop Dashboard
           Expanded(
-            child: _navItems[_navItemPathName]!,
+            child: _buildNavItemWidget()[_selectedNavItemPath]!,
           ),
 
           // Footer
@@ -101,9 +94,26 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: SidebarNav(
         onItemTapped: _onItemTapped,
-        path: _navItemPathName,
+        path: _selectedNavItemPath,
       ),
-      body: _navItems[_navItemPathName],
+      // body: navItems[_selectedNavItemPath],
+      body: _buildNavItemWidget()[_selectedNavItemPath],
     );
+  }
+
+  /// returns a map like: { dashboard: Dashboard(), users: Users(), ... }
+  Map<String, Widget> _buildNavItemWidget() {
+    Map<String, Widget> navItems = {};
+    for (var element in navItemDataList) {
+      if (element.path != null) {
+        navItems[element.path!] = element.screen!;
+      } else {
+        for (var child in element.children) {
+          navItems[child.path!] = child.screen!;
+        }
+      }
+      setState(() {});
+    }
+    return navItems;
   }
 }

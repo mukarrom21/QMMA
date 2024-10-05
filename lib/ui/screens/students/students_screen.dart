@@ -59,44 +59,6 @@ class _StudentsScreenState extends State<StudentsScreen> {
     );
   }
 
-  Widget _buildHeaderSection() {
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        color: Colors.white,
-        elevation: 10,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              const Text(
-                "Students",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              IconButton.filled(
-                onPressed: () {},
-                icon: const Icon(Icons.add),
-                tooltip: "Add new student",
-              ),
-              const Spacer(),
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.settings,
-                ),
-                tooltip: "Settings",
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildDataTableSection(BuildContext context) {
     return Expanded(
       child: GestureDetector(
@@ -109,7 +71,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
           columnSpacing: 12,
           isHorizontalScrollBarVisible: true,
           horizontalMargin: 12,
-          minWidth: 1000,
+          minWidth: 800,
           isVerticalScrollBarVisible: true,
           horizontalScrollController: ScrollController(
             debugLabel: 'horizontalScrollController',
@@ -130,26 +92,26 @@ class _StudentsScreenState extends State<StudentsScreen> {
           ),
           columns: [
             DataColumn2(
-                fixedWidth: 50,
-                label: const Text("id"),
+                // fixedWidth: 50,
+                label: const Center(child: Text("id")),
                 onSort: (columnIndex, ascending) {
                   // do something
                 }),
             const DataColumn2(
-              fixedWidth: 150,
-              label: Text("Name"),
+              // fixedWidth: 150,
+              label: Center(child: Text("Name")),
             ),
             const DataColumn2(
-              fixedWidth: 150,
-              label: Text("Father name"),
+              // fixedWidth: 150,
+              label: Center(child: Text("Father name")),
             ),
             const DataColumn2(
-              fixedWidth: 70,
-              label: Text("Class"),
+              // fixedWidth: 70,
+              label: Center(child: Text("Class")),
             ),
             const DataColumn2(
-              fixedWidth: 200,
-              label: Text("Mobile"),
+              // fixedWidth: 200,
+              label: Center(child: Text("Mobile")),
             ),
           ],
           rows: List<DataRow>.generate(
@@ -169,11 +131,11 @@ class _StudentsScreenState extends State<StudentsScreen> {
               },
 
               cells: [
-                DataCell(Text("std$index")),
-                const DataCell(Text("Abdullah al Araf")),
-                const DataCell(Text("Abu Abdullah")),
-                DataCell(Text("Class $index")),
-                const DataCell(Text("+880 190 903 7017")),
+                DataCell(Center(child: Text("std$index"))),
+                const DataCell(Center(child: Text("Abdullah al Araf"))),
+                const DataCell(Center(child: Text("Abu Abdullah"))),
+                DataCell(Center(child: Text("Class $index"))),
+                const DataCell(Center(child: Text("+880 190 903 7017"))),
               ],
             ),
           ),

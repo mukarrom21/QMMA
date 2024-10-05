@@ -11,11 +11,12 @@ class NavItemTile extends StatelessWidget {
     required this.icon,
   });
 
-  final SidebarNav widget;
+  final SidebarNav widget; /// receives widget from SidebarNav widget
   final String path;
   final String itemName;
   final IconData icon;
 
+  /// if path == widget.path, return color
   Color? navColor(String path, Color? color) {
     if (path == widget.path) {
       return color;
@@ -31,12 +32,12 @@ class NavItemTile extends StatelessWidget {
       title: Text(
         itemName,
         style: TextStyle(
-          color: navColor(
-            path,
-            Colors.white,
-          ),
+          /// color: call navColor function,
+          color: navColor(path, Colors.white),
         ),
       ),
+      /// widget receives onItemTapped function from SidebarNav widget
+      /// path is passed from SidebarNav widget received from NavItemTile above
       onTap: () => widget.onItemTapped(path),
     );
   }
